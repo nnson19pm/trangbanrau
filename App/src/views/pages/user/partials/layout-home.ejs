@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+   
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/css/font-awesome.css" type="text/css"> -->
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+<!-- @format -->
+
+<div id="preloder">
+	<div class="loader"></div>
+</div>
+
+<div class="humberger__menu__overlay"></div>
+<div class="humberger__menu__wrapper">
+	<div class="humberger__menu__logo">
+		<a href="#"><img src="img/logo.png" alt="" /></a>
+	</div>
+
+	<div class="humberger__menu__cart">
+		<ul>
+			<li>
+				<a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a>
+			</li>
+		</ul>
+		<div class="header__cart__price">item: <span>$150.00</span></div>
+	</div>
+
+	<div class="humberger__menu__widget">
+		<div class="header__top__right__language">
+			<img src="img/language.png" alt="" />
+			<div>English</div>
+			<span class="arrow_carrot-down"></span>
+			<ul>
+				<li><a href="#">Spanis</a></li>
+				<li><a href="#">English</a></li>
+			</ul>
+		</div>
+		<div class="header__top__right__auth">
+			<a href="#"><i class="fa fa-user"></i> Login</a>
+		</div>
+	</div>
+
+	<nav class="humberger__menu__nav mobile-menu">
+		<ul>
+			<li class="active"><a href="/">Trang chủ</a></li>
+			<!-- <li>
+				<a href="#">Pages</a>
+				<ul class="header__menu__dropdown">
+					<li><a href="./shop-details.html">Shop Details</a></li>
+					<li><a href="./shoping-order.html">Shoping Cart</a></li>
+					<li><a href="./checkout.html">Check Out</a></li>
+					<li><a href="./blog-details.html">Blog Details</a></li>
+				</ul>
+			</li> -->
+			<li><a href="/blogs">Blog</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</nav>
+
+	<div id="mobile-menu-wrap"></div>
+
+	<div class="header__top__right__social">
+		
+	</div>
+
+	<div class="humberger__menu__contact">
+		<ul>
+			
+		</ul>
+	</div>
+</div>
+
+<header class="header">
+	<div class="header__top">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6">
+					
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="header__top__right">
+					
+
+						<% if (isLoggedIn) { %>
+						<div class="header__top__right__language">
+							<div><i class="fa fa-user mr-1"></i> Chào <%=user.full_name%></div>
+							<span class="arrow_carrot-down"></span>
+							<ul>
+								<li><a href="/api/logout">Thoát</a></li>
+							</ul>
+						</div>
+
+						<% } else { %>
+
+						<div class="header__top__right__auth">
+							<a href="/login"><i class="fa fa-user"></i> Đăng nhập</a>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="header__logo">
+					<a href=""><img src="img/logo.png" alt="" /></a>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<nav class="header__menu">
+					<ul>
+						<li class="active"><a href="/">Trang chủ</a></li>
+						<!-- <li>
+							<a href="#">Pages</a>
+							<ul class="header__menu__dropdown">
+								<li><a href="./shop-details.html">Shop Details</a></li>
+								<li><a href="./shoping-order.html">Shoping Cart</a></li>
+								<li><a href="./checkout.html">Check Out</a></li>
+								<li><a href="./blog-details.html">Blog Details</a></li>
+							</ul>
+						</li> -->
+						<li><a href="/collections">Sản Phẩm</a></li>
+						<li><a href="/blogs">Blog</a></li>
+
+						<li><a href="/my-order">Đơn Hàng</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-3">
+				<div class="header__cart">
+					<ul>
+						<li>
+							<a href="/my-profile"><i class="fa fa-user mr-1"></i></a>
+						</li>
+						<li>
+							<a href="/cart"><i class="fa fa-shopping-bag"></i> <span><%= cart?.length || 0 %></span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="humberger__open">
+			<i class="fa fa-bars"></i>
+		</div>
+	</div>
+</header>

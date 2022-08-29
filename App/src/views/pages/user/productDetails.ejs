@@ -1,0 +1,142 @@
+<!-- @format -->
+
+<%- include("./partials/layout-top") -%>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/images/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2><%= product?.name %></h2>
+
+                    <div class="breadcrumb__option mt-2">
+                        <a href="/">Home</a>
+                        <a href="/category/<%= product?.ProductCategory?.slug %>"><%= product?.ProductCategory?.name %></a>
+                        <span><%= product?.name %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large" src="<%= product?.thumbnails %>" alt=""/>
+                    </div>
+
+                    <div class="product__details__pic__slider owl-carousel">
+                        <% for(let i = 0; i < product?.Galleries.length;i++){ %>
+                            <img data-imgbigurl="<%= product?.Galleries[i]?.image %>"
+                                 src="<%= product?.Galleries[i]?.image %>" alt=""/>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3><%= product?.name %></h3>
+
+                    <div class="product__details__rating">
+                        <span>Đã Bán: <%= product?.quantity_sold %></span>
+                    </div>
+
+                    <div class="product__details__price">
+                        <% if(product?.discount <=0){ %>
+                            <%= (product?.price * ((100 - product?.discount)/100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                          <% } else{ %>  
+                            <%= (product?.price * ((100 - product?.discount)/100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                            <del style="font-size: 16px;"><%= product?.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></del>
+                            (-<%= product?.discount %>%)
+                         <% } %>
+
+                        
+                    </div>
+
+                    <p><%= product?.description %></p>
+<!-- 
+                    <div class="product__details__quantity">
+                        <div class="quantity">
+                            <div class="pro-qty">
+                                <input type="text" id="productQuantity" value="1"/>
+                            </div>
+                        </div>
+                    </div> -->
+                    <% if(product?.quantity >=1){ %>
+                        <a style="cursor: pointer" onclick="addToCart(<%= product?.id %>, $('#productQuantity').val())"
+                            class="primary-btn">
+                             Thêm vào giỏ hàng
+                         </a>
+                    <% }  %> 
+
+
+                    <!-- <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a> -->
+
+                    <ul>
+                        <li><b>Tình trạng</b> <span><%= product?.quantity == 0 ? 'Hết hàng' : 'Còn hàng' %></span></li>
+                       
+                        <li><b>Trọng lượng</b> <span><%= product?.mass %> g</span></li>
+                       
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+<!-- Related Product Section Begin -->
+<section class="related-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title related__product__title">
+                    <h2>Sản phẩm tương tự</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <% for (let i = 0; i < relatedProducts.length; i++){ %>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="<%= relatedProducts[i]?.thumbnails %>">
+                            <ul class="product__item__pic__hover">
+                                <li>
+                                    <a href="#"><i class="fa fa-retweet"></i></a>
+                                </li>
+                                <li>
+                                    <a style="cursor: pointer" onclick="addToCart(<%= product?.id %>)"><i
+                                                class="fa fa-shopping-cart"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="product__item__text">
+                            <h6><a href="/product/<%= relatedProducts[i]?.id%>"><%= relatedProducts[i]?.name %></a></h6>
+                            <% if(relatedProducts[i]?.discount <=0){ %>
+                                <%= (relatedProducts[i]?.price * ((100 - relatedProducts[i]?.discount)/100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                              <% } else{ %>  
+                                <%= (relatedProducts[i]?.price * ((100 - relatedProducts[i]?.discount)/100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                                <del style="font-size: 16px;"><%= relatedProducts[i]?.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></del>
+                              
+                             <% } %>
+
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+<!-- Related Product Section End -->
+
+<%- include("./partials/layout-bot") -%>

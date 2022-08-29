@@ -1,0 +1,89 @@
+<%- include("../partials/layout-top") %>
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Danh sách bài viết</h4>
+
+        <% if (messages['error']){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Lỗi !</strong> <%= messages['error'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (messages['success']){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành công !</strong> <%= messages['success'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Basic Layout & Basic with Icons -->
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr class="text-center">
+                                <th>STT</th>
+                                <th>Tiêu đế</th>
+                                <th>Slug</th>
+                                <th>Cập nhật gần đây</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <% for(let i = 0; i < products.rows.length;i++) {
+                                const product = products.rows[i] %>
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%= product?.title %></td>
+                                <td><%= product?.slug %></td>
+                                <td><%= product?.updatedAt %></td>
+                                <td>
+                                    <a class="btn btn-primary" href="/admin/blog/edit/<%= product?.slug %>">Sửa</a>
+                                    &nbsp;
+                                    <a class="btn btn-primary" href="/admin/blog/delete/<%= product?.slug %>">Xoá</a>
+                                </td>
+                            </tr>
+
+                            <% } %>
+                            </tbody>
+                        </table>
+
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <% for (let i = 0, j = 1; i < products?.count; i += 9, j++){
+                                if (offset <= i && offset > i - 9){ %>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?offset=<%= i %>"><%= j %></a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?offset=<%= i %>"><%= j %></a>
+                                    </li>
+                                <% }} %>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- Footer -->
+    <!-- / Footer -->
+
+    <!-- <div class="content-backdrop fade"></div> -->
+</div>
+
+<%- include("../partials/layout-bot") %>

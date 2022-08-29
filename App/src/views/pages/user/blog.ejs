@@ -1,0 +1,122 @@
+<!-- @format -->
+
+<%- include("./partials/layout-top") -%>
+
+<section class="breadcrumb-section set-bg" data-setbg="/images/breadcrumb.jpg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="breadcrumb__text">
+					<h1>Blog</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Blog Section Begin -->
+<section class="blog spad">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-5">
+				<div class="blog__sidebar">
+					<div class="blog__sidebar__search">
+						<form action="#">
+							<input type="text" placeholder="Tìm kiếm..." />
+							<button type="submit"><span class="icon_search"></span></button>
+						</form>
+					</div>
+
+					<div class="blog__sidebar__item">
+						<h4>Categories</h4>
+
+						<ul>
+							<li><a href="/blogs">Tất cả</a></li>
+
+							<% for (let i =0; i < blogCategories.length;i++){ %>
+							<li><a href="/blog-cate/<%=blogCategories[i]?.slug%>"><%=blogCategories[i]?.name%></a></li>
+							<% } %>
+						</ul>
+					</div>
+
+					<div class="blog__sidebar__item">
+						<h4>Blog gần đây</h4>
+
+						<div class="blog__sidebar__recent">
+							<% for (let i =0; i < recentBlogs.length;i++){ %>
+							<a href="/blog/<%=recentBlogs[i]?.slug%>" class="blog__sidebar__recent__item">
+								<div class="blog__sidebar__recent__item__pic" style="max-width: 70px;">
+									<img src="><%=recentBlogs[i]?.thumbnail%>" alt="" />
+								</div>
+								<div class="blog__sidebar__recent__item__text">
+									<h6><%=recentBlogs[i]?.title%></h6>
+									<span><%=recentBlogs[i]?.createdAt.toLocaleString()%></span>
+								</div>
+							</a>
+							<% } %>
+						</div>
+					</div>
+
+					<!-- <div class="blog__sidebar__item">
+						<h4>Search By</h4>
+						<div class="blog__sidebar__item__tags">
+							<a href="#">Apple</a>
+							<a href="#">Beauty</a>
+							<a href="#">Vegetables</a>
+							<a href="#">Fruit</a>
+							<a href="#">Healthy Food</a>
+							<a href="#">Lifestyle</a>
+						</div>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="col-lg-8 col-md-7">
+				<div class="row">
+					<% for(let i=0; i < blogs.rows.length ;i++){ const blog = blogs.rows[i]%>
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="blog__item">
+							<div class="blog__item__pic">
+								<img src="<%=blog?.thumbnail%>" alt="" />
+							</div>
+
+							<div class="blog__item__text">
+								<ul>
+									<li><i class="fa fa-calendar-o"></i> <%=blog?.updatedAt.toLocaleString()%></li>
+									<!-- <li><i class="fa fa-comment-o"></i> 5</li> -->
+								</ul>
+								<h5><a href="/blog/<%=blog?.slug%>"><%=blog?.title%></a></h5>
+								<!-- <p><%=truncateString(blog?.content,100)%></p> -->
+								<a href="/blog/<%=blog?.slug%>" class="blog__btn">ĐỌC THÊM <span class="arrow_right"></span></a>
+							</div>
+						</div>
+					</div>
+					<% } %>
+
+					<div class="col-lg-12">
+						<!-- <div class="product__pagination blog__pagination">
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a href="#">3</a>
+							<a href="#"><i class="fa fa-long-arrow-right"></i></a>
+						</div> -->
+
+						<div class="product__pagination blog__pagination">
+							<% for (let i = 0, j=1; i < blogs?.count; i+=9, j++){ if (offset <= i && offset > i-9){ %>
+							<a href="?offset=<%=i%>" class="active"><%=j%></a>
+							<% } else { %>
+							<a href="?offset=<%=i%>"><%=j%></a>
+
+							<% }} %> <% if (offset < blogs?.count - 9){ %>
+							<a href="?offset=<%=offset+9%>"><i class="fa fa-long-arrow-right"></i></a>
+							<% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<%- include("./partials/layout-bot") -%>

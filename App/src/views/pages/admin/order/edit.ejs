@@ -1,0 +1,219 @@
+<%- include("../partials/layout-top") %>
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Chi Tiết Đơn Hàng</h4>
+
+        <% if (messages['error']){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Lỗi !</strong> <%= messages['error'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (messages['success']){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành công !</strong> <%= messages['success'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Basic Layout & Basic with Icons -->
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <div class="row mb-3">
+                                <!--  -->
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên Khách Hàng</label>
+                                <div class="col-sm-10">
+                                    <input readonly type="text" name="full_name" class="form-control" id="basic-default-name"
+                                           value="<%= order?.full_name %>">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <!--  -->
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">SĐT</label>
+                                <div class="col-sm-10">
+                                    <input readonly type="text" name="phone_number" class="form-control" id="basic-default-name"
+                                           value="<%= order?.phone_number %>">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <!--  -->
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Địa chỉ</label>
+                                <div class="col-sm-10">
+                                    <input readonly type="text" name="address" class="form-control" id="basic-default-name"
+                                           value="<%= order?.address %>">
+                                </div>
+                            </div>
+
+                            <!-- -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-message">Ghi chú</label>
+                                <div class="col-sm-10">
+                                    <textarea readonly id="basic-default-message" name="note" class="form-control"
+                                              aria-describedby="basic-icon-default-message2"><%= order?.note %></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-message">Trạng Thái Hiện Tại Đơn Hàng</label>
+                                <div class="col-sm-10">
+                                    <% if (order?.status == 0) { %>
+                                        <input readonly type="text"  class="form-control" id="basic-default-name"
+                                        value="Chờ Xác Nhận">
+                                    <% } %>
+                                    <% if (order?.status == 1) { %>
+                                        <input readonly type="text"  class="form-control" id="basic-default-name"
+                                        value="Đang Chuẩn Bị Hàng">
+                                    <% } %>
+                                    <% if (order?.status == 2) { %>
+                                        <input readonly type="text"  class="form-control" id="basic-default-name"
+                                        value="Đang Giao Hàng">
+                                    <% } %>
+                                    <% if (order?.status == 3) { %>
+                                        <input readonly type="text"  class="form-control" id="basic-default-name"
+                                        value="Đã Nhận Hàng">
+                                    <% } %>
+                                    <% if (order?.status == 4) { %>
+                                        <input readonly type="text"  class="form-control" id="basic-default-name"
+                                        value="Đã Huỷ">
+                                    <% } %>
+                                </input>
+                            </div>
+                            <!--  -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-message">Cập Nhật Trạng Thái Đơn Hàng</label>
+                                <div class="col-sm-10">
+                                    <% if (order?.status == 4) { %>
+                                        <select id="defaultSelect" disabled name="status" class="form-select">
+                                            <option value="4">
+                                                Đã Huỷ
+                                            </option>
+                                    </select>
+                                    <% } else if (order?.status == 3) { %>
+                                        <select id="defaultSelect" disabled name="status" class="form-select">
+                                            <option value="3">
+                                                Đã Nhận Hàng
+                                            </option>
+                                        </select>
+                                    <% } else { %>
+                                        <select id="defaultSelect" name="status" class="form-select">
+                                            <option value="0">
+                                                Chờ Xác Nhận
+                                            </option>
+                                            <option value="1">
+                                                Đang Chuẩn Bị Hàng
+                                            </option>
+                                            <option value="2">
+                                                Đang Giao Hàng
+                                            </option>
+                                            <option value="3">
+                                                Đã Nhận Hàng
+                                            </option>
+                                            <option value="4">
+                                                Đã Huỷ
+                                            </option>
+                                    </select>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            
+                            <% if (order?.status == 4) { %>
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-10">
+                                        <button disabled type="submit" class="btn btn-primary">Sửa</button>
+                                    </div>
+                                </div>
+                            <%} else if (order?.status == 3) { %>
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-10">
+                                        <button disabled type="submit" class="btn btn-primary">Sửa</button>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Sửa</button>
+                                    </div>
+                                </div>
+                            <% } %>
+                            
+                        </form>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-10">
+                                <a href="/admin/invoice/<%= order?.id %>" class="btn btn-primary">Xem Hoá Đơn</a>
+                            </div>
+                        </div>
+                        <% var sumTotal = 0; %>
+                        <% for(let i = 0; i < order.OrderDetails.length;i++) {    
+                            const product = order.OrderDetails[i] %>
+                            <% sumTotal +=  (product?.price * product?.quantity)*(100-product?.discount)/100%>
+                        <% } %>
+                        <th>TỔNG THÀNH TIỀN: <%= sumTotal.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></th>
+                        
+                        <table class="table-bordered table mt-2">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <% for(let i = 0; i < order.OrderDetails.length;i++) {
+                               
+                                const product = order.OrderDetails[i] %>
+                                
+                            <tr>
+                                
+                                <td><%= i + 1 %></td>
+                                <td><%= product?.Product.name %></td>
+                                <td><%= ((100-product?.discount)/100 * product?.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%>
+                                    <del><%= product?.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></del>
+                                    <p>Giảm <%= product?.discount %>%</p>
+                                </td>
+                               
+                                <td><%= product?.quantity %></td>
+                                <td><%= ((product?.price * product?.quantity)*(100-product?.discount)/100).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                          
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- Footer -->
+    <!-- / Footer -->
+
+    <!-- <div class="content-backdrop fade"></div> -->
+</div>
+<!-- <script src="/js/reviewImage.js"></script> -->
+
+<%- include("../partials/layout-bot") %>

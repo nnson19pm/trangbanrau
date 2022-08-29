@@ -1,0 +1,4 @@
+****
+- create migrate: cd src >   npx sequelize-cli db:migrate
+- RUN seeders:  npx sequelize-cli db:seed:all
+****

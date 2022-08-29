@@ -1,0 +1,105 @@
+<!-- @format -->
+
+<%- include("./partials/layout-top") -%>
+
+<section class="breadcrumb-section set-bg" data-setbg="/images/breadcrumb.jpg" style="background-image: url('/images/breadcrumb.jpg')">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="breadcrumb__text">
+					<h1>Đơn Hàng Của Tôi</h1>
+					<div class="breadcrumb__option">
+						<a href="">Order</a>
+						<span>Đơn Hàng Của Tôi</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<% if (messages['error']){ %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	<strong>Lỗi !</strong> <%= messages['error'] %>
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% } %> <% if (messages['success']){ %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+	<strong>Thành công !</strong> <%= messages['success'] %>
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% } %>
+
+<section class="shoping-cart spad">
+	<div class="container">
+		<% myOrder.forEach(function(order){ const time = order.order_date; const timeFormat = time.toISOString().slice(11, 19); %>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="shoping__cart__table" style="">
+					<div style="border-top: 2px solid #7fad39; margin-top: 50px; margin-bottom: 10px"></div>
+					<p style="">Đặt hàng ngày: <%= order.order_date.toLocaleString()%></p>
+					<table>
+						<thead>
+							<tr>
+								<th style="text-align: left; font-size: 18px">
+									Trạng thái: <% if (parseInt(order.status) == 0) { %>
+									<span style="font-size: 18px; font-weight: 600; color: #7fad39"> Chờ Xác Nhận</span>
+									<% } %> <% if (parseInt(order.status) == 1) { %>
+									<span style="font-size: 18px; font-weight: 600; color: #7fad39"> Đang Chuẩn Bị Hàng</span>
+									<% } %> <% if (parseInt(order.status) == 2) { %>
+									<span style="font-size: 18px; font-weight: 600; color: #7fad39"> Đang Giao Hàng</span>
+									<% } %> <% if (parseInt(order.status) == 3) { %>
+									<span style="font-size: 18px; font-weight: 600; color: #7fad39"> Đã Nhận Hàng</span>
+									<% } %> <% if (parseInt(order.status) == 4) { %>
+									<span style="font-size: 18px; font-weight: 600; color: #7fad39"> Đơn Hàng Đã Huỷ</span>
+									<% } %>
+								</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<% order.OrderDetails.forEach(function(orderDetails){ %>
+
+							<tr>
+								<td class="shoping__cart__item" style="display: flex">
+									<img style="width: 120px" src="<%= orderDetails?.Product.thumbnails %>" alt="" />
+									<div>
+										<h5 style="display: block; margin-top: 10px"><%= orderDetails?.Product.name %></h5>
+										<h5 class="mt-2">Số Lượng: <%= orderDetails.quantity %></h5>
+									</div>
+								</td>
+
+								<td class="shoping__cart__total" style="color: #7fad39; font-size: 18px; font-weight: 700">
+									<%= ((orderDetails.price * orderDetails.quantity) * ((100 - orderDetails.discount) / 100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %>
+									<span style="display: inline-block; font-weight: 400; text-decoration: line-through; margin-left: 10px; font-size: 14px; color: #b2b2b2; margin-bottom: 4px">
+										<%= (orderDetails.price * orderDetails.quantity).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></span
+									>
+								</td>
+							</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="shoping__cart__btns">
+					<% var sumTotal = 0; sumDiscount = 0; order.OrderDetails.forEach(function(product){ sumDiscount += (product.price * product.quantity * product.discount)/100; sumTotal +=
+					(product.price * product.quantity ) - sumDiscount %> <% }); %>
+					<h5 style="text-align: right">Số tiền được giảm: <%= sumDiscount.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></h5>
+					<h5 style="text-align: right" class="mt-3">Tổng số tiền phải trả: <%= sumTotal.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></h5>
+
+					<% if (parseInt(order.status) != 4 && parseInt(order.status) != 3 && parseInt(order.status) != 2) { %>
+					<a style="border-bottom: 2px solid #7fad39" href="/my-order/cancel/<%= order.id %>" class="primary-btn cart-btn cart-btn-right mt-3"><span class="icon_loading"></span> Huỷ Đơn</a>
+
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<% }); %>
+	</div>
+</section>
+
+<%- include("./partials/layout-bot") -%>

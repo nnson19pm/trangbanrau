@@ -1,0 +1,224 @@
+<title>FootStore - Trang Chủ</title>
+<%- include("./partials/layout-home") -%>
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <i class="fa fa-bars"></i>
+                        <span>All departments</span>
+                    </div>
+
+                    <ul class="ul-home">
+                        <% for (let i = 0; i < productCategories.length; i++){ %>
+                            <li><a href="/category/<%-productCategories[i]?.slug%>"><%=productCategories[i]?.name%></a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form method="GET" action="/collections/search">
+                            
+
+                            <input type="text" name="kw" placeholder="Nhập sản phẩm cần tìm?" autocomplete="off" />
+                            <button type="submit" class="site-btn">Tìm Kiếm</button>
+                        </form>
+                    </div>
+
+                    <div class="hero__search__phone">
+                        <div class="hero__search__phone__icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="hero__search__phone__text">
+                            <h5>+65 11.188.888</h5>
+                            <span>support 24/7 time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product__discount ">
+					<div class="row">
+						<div class="product__discount__slider owl-carousel">
+							<% for (let i = 0; i < discountProducts.length; i++){ let discountProduct = discountProducts[i]; %>
+							<div class="col-lg-4">
+								<div class="product__discount__item">
+									<div class="product__discount__item__pic set-bg" data-setbg="<%=discountProduct?.thumbnails%>">
+										<div class="product__discount__percent">-<%=discountProduct?.discount%>%</div>
+										<ul class="product__item__pic__hover">
+											<li>
+												<a href="#"><i class="fa fa-retweet"></i></a>
+											</li>
+											<li>
+												<a style="cursor: pointer" onclick="addToCart(<%= discountProduct?.id %>)"><i class="fa fa-shopping-cart"></i></a>
+											</li>
+										</ul>
+									</div>
+
+									<div class="product__discount__item__text">
+										<span><%=discountProduct?.ProductCategory?.name%></span>
+										<h5><a href="/product/<%=discountProduct?.id%>"><%=discountProduct?.name%></a></h5>
+										<div class="product__item__price">
+											<%=(discountProduct?.price * (100 - discountProduct?.discount)/ 100).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> đ
+											<span><%=discountProduct?.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<% } %>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Categories Section Begin -->
+<!-- <section class="categories">
+    <div class="container">
+        <div class="row">
+            
+        </div>
+    </div>
+</section> -->
+<!-- Categories Section End -->
+
+<!-- Featured Section Begin -->
+<section class="featured spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Sản Phẩm Mới</h2>
+                </div>
+                <div class="featured__controls">
+                    <ul>
+                        <li class="active" data-filter="*">All</li>
+                        <% productCategories.forEach(function(category){ %>
+                            <li data-filter=".ct<%=category.id%>"><%=category.name%></li>
+                        <% }); %>
+                     
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row featured__filter">
+            <% latestProduct_viewHome.forEach(function(product) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix ct<%=product.categoryId%>">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="<%=product.thumbnails%>">
+                            <% if(product?.quantity <= 0){ %>
+                                <ul class="featured__item__pic__hover">
+                                    <li>Hết Hàng</li>
+                                </ul>
+                            <% } else { %>  
+                                <ul class="featured__item__pic__hover">
+                                    <li><a style="cursor: pointer" onclick="addToCart(<%= product?.id %>)"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                             <% } %>
+
+ 
+                        </div>
+                        <div class="featured__item__text">
+                            <div class="product__discount__item__text">
+                                <h5><a href="/product/<%=product?.id%>"><%=product?.name%></a></h5>
+                                <% if(product?.discount <= 0){ %>
+                                    <div class="product__item__price">
+                                        <%=(product?.price * ((100 - product?.discount) / 100 )).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                        
+                                    </div>
+                                  <% } else{ %>  
+                                    <div class="product__item__price">
+                                        <%=(product?.price * ((100 - product?.discount) / 100 )).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %> 
+                                        <span><%=product?.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></span>
+                                    </div>
+                                 <% } %>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            <% }); %> 
+           
+            
+        </div>
+    </div>
+</section>
+<!-- Featured Section End -->
+
+<!-- Banner Begin -->
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="../banner/banner-1.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="../banner/banner-2.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
+
+<!-- Latest Product Section Begin -->
+
+<!-- Latest Product Section End -->
+
+<!-- Blog Section Begin -->
+<section class="from-blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title from-blog__title">
+                    <h2>Bài Viết Gần Đây</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <% recentBlog.forEach((blog) => { %>
+   
+                <%  const date =  blog.updatedAt;
+                    const dateFormat = date.toISOString().slice(0, 10);
+                    const timeFormat = date.toISOString().slice(11, 19);
+                    const formatDateTime = date.toLocaleDateString('vi-VN', {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric'
+                    });
+
+                %>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic" style="max-height: 260px; overflow: hidden;">
+                            <img src="<%= blog.thumbnail %>" style="max-width: 360px;" alt="">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fa fa-calendar-o"></i> <%= blog.updatedAt.toLocaleString()%></li>
+                                <!-- <li><i class="fa fa-comment-o"></i> <%= %></li>
+                                <li><i class="fa fa-comment-o"></i> <%= %></li> -->
+                            </ul>
+                            <h5><a href="/blog/<%= blog.slug %>"><%= blog.title %></a></h5>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %> 
+            
+        </div>
+    </div>
+</section>
+
+<%- include("./partials/layout-bot") -%>

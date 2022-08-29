@@ -1,0 +1,55 @@
+<%- include("../partials/layout-top") %>
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Sửa Danh Mục Sản Phẩm</h4>
+
+        <% if (messages['error']){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Lỗi !</strong> <%= messages['error'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (messages['success']){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành công !</strong> <%= messages['success'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Basic Layout & Basic with Icons -->
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <form method="post" action="">
+                            <div class="row mb-3">
+                                <!--  -->
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên Danh Mục</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" id="basic-default-name"
+                                           value="<%= productCategory?.name %>">
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Sửa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<%- include("../partials/layout-bot") %>

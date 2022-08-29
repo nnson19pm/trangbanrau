@@ -1,0 +1,156 @@
+<%- include("../partials/layout-top") %>
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Thống kê doanh thu</h4>
+
+        <% if (messages['error']){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Lỗi !</strong> <%= messages['error'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (messages['success']){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành công !</strong> <%= messages['success'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Basic Layout & Basic with Icons -->
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="flatpickr-from" class="form-label">Từ ngày</label>
+                                    <input value="<%=fromDate%>"type="text" class="form-control flatpickr-input active"
+                                           placeholder="DD/MM/YYYY"
+                                           id="flatpickr-from" readonly="readonly" name="fromDate">
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="flatpickr-to" class="form-label">Đến ngày</label>
+                                    <input value="<%=toDate%>" type="text" class="form-control flatpickr-input active"
+                                           placeholder="DD/MM/YYYY"
+                                           id="flatpickr-to" readonly="readonly" name="toDate">
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <% if (orders) { %>
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="margin-bottom: 10px;">
+                                <span style="margin-right: 10px;">Doanh thu từ ngày [ <%=fromDateFormat%> ] đến ngày [ <%=toDateFormat%> ]</span>
+                                <button class="btn btn-primary" onclick="ExportToExcel('xlsx')">Xuất Excel</button>
+                            </div>
+                            <table class="table table-bordered">
+                               
+                                <thead>
+                                <tr class="text-center">
+                                    <td>STT</td>
+                                    <td>Mã đơn hàng</td>
+                                    <td>Tổng tiền</td>
+                                    <td>Tổng doanh thu</td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+
+                                <% for(let i = 0; i < orders?.orders.length;i++) {
+                                    const order = orders?.orders[i] %>
+                                <tr class="text-center">
+                                    <td><%= i + 1 %></td>
+                                    <td><%= order?.id %>
+                                        <div><a href="/admin/order/edit/<%=order?.id%>">Xem chi tiết</a></div>
+                                    </td>
+                                    <% var sum = 0 %>
+                                    <% order?.orderTotalPrice.forEach(function(price){ 
+                                        sum += price %> 
+                                    <% }); %>
+                                    <td><%= sum.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                                    
+                                    
+                                    <% if (i === 0){ %>
+                                        <td rowspan="<%= orders?.orders.length %>"><%= orders?.totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <table id="export" class="table table-bordered" style="display: none">   
+                        <thead>
+                        <tr class="text-center">
+                            <td>STT</td>
+                            <td>Mã đơn hàng</td>
+                            <td>Họ tên</td>
+                            <td>Số điện thoại</td>
+                            <td>Địa chỉ</td>
+                            <td>Tổng tiền đơn hàng</td>
+                            <td>
+                                <% for(let i = 0; i < orders?.orders.length;i++) {
+                                    const order = orders?.orders[i] %>
+                            
+                                <% if (i === 0){ %>
+                                    <td rowspan="<%= orders?.orders.length %>">Tổng doanh thu từ ngày [ <%=fromDateFormat%> ] đến ngày [ <%=toDateFormat%> ] là: <%= orders?.totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                                <% } %>
+                                    
+                                <% } %> 
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <% for(let i = 0; i < orders?.orders.length;i++) {
+                            const order = orders?.orders[i] %>
+                        <tr class="text-center">
+                            <td><%= i + 1 %></td>
+                            <td><%= order?.id %></td>
+                            <td><%= order?.name %></td>
+                            <td><%= order?.phone_number %></td>
+                            <td><%= order?.address %></td>
+                            <% var sum = 0 %>
+                            <% order?.orderTotalPrice.forEach(function(price){ 
+                                sum += price %> 
+                            <% }); %>
+                            <td><%= sum.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                            <td></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ExportToExcel(type, fn, dl) {
+    var elt = document.getElementById('export');
+    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+    return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, fn || ('thong-ke-doanh-thu-tu-<%=fromDateFormat%>-den-ngay-<%=toDateFormat%>'+ '.' + (type || 'xlsx')));
+    }
+</script>
+
+<%- include("../partials/layout-bot") %>

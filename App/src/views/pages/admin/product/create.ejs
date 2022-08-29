@@ -1,0 +1,170 @@
+<!-- @format -->
+
+<%- include("../partials/layout-top") %>
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Thêm Sản Phẩm</h4>
+
+        <% if (messages['error']){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Lỗi !</strong> <%= messages['error'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (messages['success']){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành công !</strong> <%= messages['success'] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Basic Layout & Basic with Icons -->
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="post" action="" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <!--  -->
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên Sản Phẩm</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" id="basic-default-name"
+                                           placeholder="Thịt Bò KoBe" required/>
+                                </div>
+                            </div>
+                            <!-- -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-message">Mô Tả</label>
+                                <div class="col-sm-10">
+									<textarea
+                                            id="basic-default-message"
+                                            name="description"
+                                            class="form-control"
+                                            placeholder="Hi, Do you have a moment to talk Joe?"
+                                            aria-label="Hi, Do you have a moment to talk Joe?"
+                                            aria-describedby="basic-icon-default-message2" required
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-email">Giá Bán</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                                type="number"
+                                                name="price"
+                                                id="basic-default-email"
+                                                class="form-control"
+                                                placeholder="1000000"
+                                                aria-label="john.doe"
+                                                aria-describedby="basic-default-email2" required
+                                        />
+                                        <span class="input-group-text" id="basic-default-email2">VNĐ</span>
+                                    </div>
+                                    <!-- <div class="form-text">You can use letters, numbers &amp; periods</div> -->
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-email">Giảm Giá</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                                type="number"
+                                                name="discount"
+                                                id="discount"
+                                                class="form-control"
+                                                placeholder="10"
+                                                step="1"
+                                                min="0" required
+                                        />
+                                        <span class="input-group-text" id="basic-default-email2">%</span>
+                                    </div>
+                                    <!-- <div class="form-text">You can use letters, numbers &amp; periods</div> -->
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-company">Ảnh Chính</label>
+                                <div class="col-sm-10">
+                                    <input required class="form-control" name="thumbnails" type="file" id="formFile"/>
+                                </div>
+                            </div>
+                            <!--   -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-phone">Số Lượng</label>
+                                <div class="col-sm-10">
+                                    <input required
+                                            type="number"
+                                            name="quantity"
+                                            id="basic-default-phone"
+                                            class="form-control phone-mask"
+                                            placeholder="10"
+                                            aria-label="658 799 8941"
+                                            aria-describedby="basic-default-phone"
+                                    />
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-email">Trọng Lượng</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group input-group-merge">
+                                        <input required
+                                                type="number"
+                                                name="mass"
+                                                id="basic-default-email"
+                                                class="form-control"
+                                                placeholder="10000"
+                                        />
+                                        <span class="input-group-text" id="basic-default-email2">g</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-message">Loại</label>
+                                <div class="col-sm-10">
+                                    <select id="defaultSelect" name="categoryId" class="form-select">
+                                        <% for (let i = 0; i < productCategory.length; i++){ %>
+                                            <option value="<%= productCategory[i]?.id %>">
+                                                <%= productCategory[i]?.name %>
+                                            </option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- DB galleries -->
+                            <!-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="formFileMultiple">Ảnh Phụ</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="image" type="file" id="formFileMultiple"
+                                           multiple=""/>
+                                </div>
+                            </div> -->
+
+                            <div class="row justify-content-end">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- Footer -->
+    <!-- / Footer -->
+
+    <!-- <div class="content-backdrop fade"></div> -->
+</div>
+
+<%- include("../partials/layout-bot") %>
